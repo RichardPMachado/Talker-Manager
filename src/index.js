@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllUser } = require('./utils/handleUser');
+const { getAllSpeakers } = require('./utils/handleUser');
 
 const app = express();
 app.use(express.json());
@@ -13,7 +13,7 @@ app.get('/', (_request, response) => {
 });
 
 app.get('/talker', async (_request, response) => {
-  const users = await getAllUser(); 
+  const users = await getAllSpeakers(); 
   response.status(HTTP_OK_STATUS).json(users);
 });
 
