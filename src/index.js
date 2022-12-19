@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllSpeakers, findSpeakerById } = require('./utils/server');
+const { getAllSpeakers, findSpeakerById, token } = require('./utils/server');
 
 const app = express();
 app.use(express.json());
@@ -28,6 +28,9 @@ app.get('/talker/:id', async (request, response) => {
   }
     return response.status(HTTP_OK_STATUS).json(talker);
 });
+
+app.post('/login', (_request, response) => response
+  .status(HTTP_OK_STATUS).json({ token: token() }));
 
 app.listen(PORT, () => {
   console.log('Online');
