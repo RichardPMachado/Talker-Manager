@@ -2,8 +2,7 @@ const express = require('express');
 
 const { loginRouter, talkerRouter } = require('./Routers/index');
 
-const { HTTP_OK_STATUS,
-PORT,
+const { HTTP_OK_STATUS, PORT,
  } = require('./utils/statusCode');
 
 const app = express();

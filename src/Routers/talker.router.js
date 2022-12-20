@@ -4,7 +4,7 @@ const talkerRouter = Router();
 
 const { getAllSpeakers, findSpeakerById } = require('../utils/server');
 const { HTTP_OK_STATUS,
-  HTTP_BAD_REQUEST,
+  HTTP_NOT_FOUND,
    } = require('../utils/statusCode');
 
 talkerRouter.get('/talker', async (_request, response) => {
@@ -16,9 +16,8 @@ talkerRouter.get('/talker/:id', async (request, response) => {
   const { id } = request.params;
   const talkers = await getAllSpeakers(); 
   const talker = await findSpeakerById(talkers, id);
-  console.log(await talker);
   if (!talker) {
-    return response.status(HTTP_BAD_REQUEST).json({ message: 'Pessoa palestrante não encontrada' });
+    return response.status(HTTP_NOT_FOUND).json({ message: 'Pessoa palestrante não encontrada' });
   }
     return response.status(HTTP_OK_STATUS).json(talker);
 });

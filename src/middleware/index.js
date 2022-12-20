@@ -1,5 +1,7 @@
-const verifyEmailAndPassword = require('./verifyEmailAndPassword');
+const verifyEmail = require('./verifyEmail');
+const verifyPassword = require('./verifyPassword');
 
 module.exports = {
-  verifyEmailAndPassword,
+  verifyEmail,
+  verifyPassword,
 };
