@@ -2,6 +2,7 @@ const { Router } = require('express');
 
 const talkerRouter = Router();
 const addTalker = require('../utils/addTalker');
+const talkerUpdate = require('../utils/talkerUpdate');
 
 const { authMiddleware, nameMiddleware, ageMiddleware,
   talkMiddleware, 
@@ -32,8 +33,16 @@ talkerRouter.get('/talker/:id', async (request, response) => {
 talkerRouter.post('/talker', authMiddleware, nameMiddleware, ageMiddleware, talkMiddleware,
 rateMiddleware, watchedAtMiddleware, async (request, response) => {
   const newTalker = await addTalker(request.body);
-  console.log(newTalker);
   return response.status(HTTP_CREATED).json(newTalker);
+});
+
+talkerRouter.put('/talker/:id', authMiddleware, nameMiddleware, ageMiddleware, talkMiddleware,
+watchedAtMiddleware, rateMiddleware, async (request, response) => {
+  const { id } = request.params;
+  console.log(id);
+  const newTalker = request.body;
+  const talkerResponse = await talkerUpdate(id, newTalker);
+  return response.status(HTTP_OK_STATUS).json(talkerResponse);
 });
 
 module.exports = talkerRouter;
