@@ -12,8 +12,9 @@ const { authMiddleware, nameMiddleware, ageMiddleware,
 
 const { getAllSpeakers, findSpeakerById } = require('../utils/server');
 const { HTTP_OK_STATUS,
-  HTTP_NOT_FOUND, HTTP_CREATED,
+  HTTP_NOT_FOUND, HTTP_CREATED, HTTP_NO_CONSTENT,
    } = require('../utils/statusCode');
+const deleteTalker = require('../utils/deleteTalker');
 
 talkerRouter.get('/talker', async (_request, response) => {
   const talkers = await getAllSpeakers(); 
@@ -43,6 +44,12 @@ watchedAtMiddleware, rateMiddleware, async (request, response) => {
   const newTalker = request.body;
   const talkerResponse = await talkerUpdate(id, newTalker);
   return response.status(HTTP_OK_STATUS).json(talkerResponse);
+});
+
+talkerRouter.delete('/talker/:id', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+  await deleteTalker(id);
+  return res.status(HTTP_NO_CONSTENT).end();
 });
 
 module.exports = talkerRouter;
