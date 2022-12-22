@@ -13,12 +13,29 @@ const { authMiddleware, nameMiddleware, ageMiddleware,
 const { getAllSpeakers, findSpeakerById } = require('../utils/server');
 const { HTTP_OK_STATUS,
   HTTP_NOT_FOUND, HTTP_CREATED, HTTP_NO_CONSTENT,
-   } = require('../utils/statusCode');
+} = require('../utils/statusCode');
 const deleteTalker = require('../utils/deleteTalker');
+const querySearch = require('../utils/querySearch');
 
 talkerRouter.get('/talker', async (_request, response) => {
   const talkers = await getAllSpeakers(); 
   response.status(HTTP_OK_STATUS).json(talkers);
+});
+
+talkerRouter.get('/talker/search', authMiddleware, async (req, res) => {
+  const { q } = req.query;
+  const talkers = await getAllSpeakers();
+
+  if (q === '') {
+    return res.status(HTTP_OK_STATUS).json(talkers);
+  }
+
+  const talker = await querySearch(q);
+
+  if (!talker) {
+    return res.status(HTTP_OK_STATUS).send([]);
+  }
+  return res.status(HTTP_OK_STATUS).json(talker);
 });
 
 talkerRouter.get('/talker/:id', async (request, response) => {
